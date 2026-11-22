@@ -102,9 +102,10 @@ node scripts/wanted.js
 
 ## 六、怎么认领
 
-- 想画哪条，先在 [Issues](../../issues) 里说一句"我来画 XX"，避免两个人撞车
-- 或者直接开 PR，一个 PR 只做一条（一个文件），审起来最快
-- 画不成也欢迎提交"这条路不通"的结论——把失败的尝试写进 PR 描述，比默默放弃有价值
+1. 点 **[开一张认领单](https://github.com/ziliu-game/code-illustration/issues/new/choose)**，选「认领一个词 / 一个字」，写一句"我画 XX"。十秒的事，只为避免两个人撞同一个。
+2. 动手。第一次贡献看 [CONTRIBUTING.md](CONTRIBUTING.md)；一个字只改一个文件，不碰别人的。
+3. 画出来开 PR，一个 PR 只做一条。
+4. **画不成也请提交结论**——把"这条路不通"写进 PR 或 issue 描述，比默默放弃有价值得多。
 
 ---
 

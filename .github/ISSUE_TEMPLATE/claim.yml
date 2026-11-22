@@ -1,0 +1,51 @@
+name: 认领一个词 / 一个字
+description: 想给 WANTED.md 里的某条画上，先在这里登记一句，避免两个人撞同一个。
+title: "[认领] "
+labels: ["认领"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        先看一眼 [WANTED.md](https://github.com/ziliu-game/code-illustration/blob/main/WANTED.md) 挑一条。
+        **不用等批准**——登记完就可以动手，画出来再开 PR。
+  - type: input
+    id: word
+    attributes:
+      label: 要画哪个
+      description: 一个词或一个字。比如「大地」「浪花」「忘」。
+      placeholder: 大地
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 属于哪一类
+      options:
+        - 两个字都有图，只缺一张构图
+        - 补一个字，能解锁一串词
+        - 清单外，我觉得这个词值得画
+    validations:
+      required: true
+  - type: textarea
+    id: plan
+    attributes:
+      label: 画面怎么念
+      description: 一句话讲清"遮住词牌，这张图能不能读出这个词"。这是唯一的判据，也是评审时唯一会看的东西。
+      placeholder: 一块高地加一条往下的坡，人在坡上——遮住「大地」，还能读出"地很大"。
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: 你出的图
+      description: 直接把 PNG 或 SVG 拖进来。plain / doodle / wash 三种画法各一张最好。
+      placeholder: 拖拽或粘贴图片
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: 四条硬规矩（勾了再交）
+      options:
+        - label: 单图不超过 2KB
+        - label: 遮住词牌，图能被念出这个词
+        - label: 画里不出现任何文字
+        - label: 三种画法同源（同一套坐标）

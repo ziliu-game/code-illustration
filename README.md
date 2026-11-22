@@ -6,7 +6,7 @@
 
 用**纯代码**（字符串拼 SVG）把汉字/词变成插图的工具包：不调用任何生图模型、不引用任何外部位图，输出可编辑、可批量、体积小、能直接塞进单机 HTML。
 
-想一起画？先看 [WANTED.md](WANTED.md) —— 里面是能直接认领的活，不是待办清单。
+想一起画？先看 [WANTED.md](WANTED.md) —— 里面是能直接认领的活，不是待办清单。挑好后[开一张认领单](https://github.com/ziliu-game/code-illustration/issues/new/choose)，写一句"我画这个"，十秒，只为不撞车。
 
 > 一个 Agent Skill，也是一个可以独立跑的 Node 脚本库。给一批词配图、做词卡/课件/绘本/分镜，或者给网页加入场逐笔动画时用它。
 
