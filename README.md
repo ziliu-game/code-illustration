@@ -1,5 +1,9 @@
 # code-illustration
 
+[![validate](https://github.com/ziliu-game/code-illustration/actions/workflows/validate.yml/badge.svg)](https://github.com/ziliu-game/code-illustration/actions/workflows/validate.yml)
+[![在线预览](https://img.shields.io/badge/%E5%9C%A8%E7%BA%BF%E9%A2%8B%E8%A6%A7-GitHub%20Pages-a83e32)](https://ziliu-game.github.io/code-illustration/)
+[![Release](https://img.shields.io/github/v/release/ziliu-game/code-illustration?label=release)](https://github.com/ziliu-game/code-illustration/releases)
+
 用**纯代码**（字符串拼 SVG）把汉字/词变成插图的工具包：不调用任何生图模型、不引用任何外部位图，输出可编辑、可批量、体积小、能直接塞进单机 HTML。
 
 > 一个 Agent Skill，也是一个可以独立跑的 Node 脚本库。给一批词配图、做词卡/课件/绘本/分镜，或者给网页加入场逐笔动画时用它。
