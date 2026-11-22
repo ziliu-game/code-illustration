@@ -1,0 +1,8 @@
+{
+ "parts": [
+  "house",
+  "fire"
+ ],
+ "lay": "side",
+ "front": 1
+}

@@ -1,0 +1,18 @@
+{
+ "parts": [
+  [
+   "person",
+   {
+    "dress": true,
+    "hair": "bun"
+   }
+  ],
+  [
+   "person",
+   {
+    "child": true
+   }
+  ]
+ ],
+ "lay": "side"
+}

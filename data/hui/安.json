@@ -1,0 +1,13 @@
+{
+ "parts": [
+  "house",
+  [
+   "person",
+   {
+    "dress": true,
+    "hair": "bun"
+   }
+  ]
+ ],
+ "lay": "stack"
+}

@@ -82,6 +82,6 @@ const HUI_WORDS = {
 
 1. 查部件是否都有图元（`A` 的键名）；缺就先补图元。
 2. 判结构：左右 `side` / 上下 `stack` / 三件 `tri`；合体字里"主体在前"的（`岩`、`灾`）加 `front: 1`。
-3. 写进 `HUI`，再挑词写进 `HUI_WORDS`（只挑词义 = 字形义的）。
+3. 新建 `data/hui/<字>.json`，再挑词写进 `data/hui-words.json`（只挑词义 = 字形义的）。
 4. 渲染后缩到 76px，问自己："不给我看词牌，我念得出这个字吗？"念不出就回退。
 5. 跑 `node scripts/demo.js decomp` 与 `node scripts/validate.js --batch`。

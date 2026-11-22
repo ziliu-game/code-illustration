@@ -1,0 +1,9 @@
+[
+ "person",
+ {
+  "dress": true,
+  "hair": "pony",
+  "child": true
+ },
+ "woman"
+]

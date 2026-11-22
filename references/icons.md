@@ -7,7 +7,7 @@
 词 ──kindOf()──> duo（双景）/ scene（主景）/ plate（字牌，无图元时兜底）
 ```
 
-- `CHARMAP`：`{'山': ['mountain'], '水': ['wave'], ...}`，**168 字**；一个汉字最多 2 个图元，第二个当点缀。
+- `CHARMAP`：`{'山': ['mountain'], '水': ['wave'], ...}`，**178 字**；一个汉字最多 2 个图元，第二个当点缀。
 - `A`：约 35 个参数化图元函数（`mountain(p)`、`wave(p)`、`tree(p)`、`house(p)`…），统一签名 `(p) => string`，`p` 可传颜色/数量/翻转。
 - `hasIcon(ch)` / `iconOf(ch)`：查表。
 - `canPair(ch)`：区分"能当主景"和"只能当点缀"（点、光、雪这类）。
@@ -18,7 +18,7 @@
 1. **查**：`node -e "const i=require('./scripts/illus.js');console.log(i.hasIcon('檐'),i.iconOf('檐'))"` — 已有就复用。
 2. **拆**：把字拆成 2~3 个几何件（如"檐" = 屋脊横线 + 上翘三角 + 两片瓦）。拆不出来就承认它不适合画，落成字牌。
 3. **画**：在 `A` 里加一个函数，只返回 `<path>/<rect>/<circle>/<polygon>` 字符串，坐标都在 0~100 内，**留 8 的安全边**（外框 6 处有描边）。
-4. **挂**：写进 `CHARMAP`，参数数组第二个位置放点缀图元名。
+4. **挂**：新建 `data/chars/<字>.json`，参数数组第二个位置放点缀图元名。
 5. **验**：`node scripts/render.js 屋檐 /tmp/x.svg --label` → `cairosvg.svg2png` → 用 `Read` 看 `x.png`。**必须真的看图**，不要凭代码猜。
 6. **回归**：`node -e "const i=require('./scripts/illus.js');console.log(i.stats(['山水','屋檐','太阳']))"` 确认没把别的词挤成 plate。
 

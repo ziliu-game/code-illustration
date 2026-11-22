@@ -8,13 +8,36 @@
 2. **不引入外部位图**。所有画面必须由 `<rect>/<circle>/<path>/<polygon>/<line>` 拼出；字体只用系统字体或明确授权的开源字体。
 3. **同一批交付只许一种画风**（`plain` / `doodle` / `wash` 不能混着出）。
 
+## 仓库结构：词条都在 `data/`，一人一文件
+
+```text
+data/
+  chars/<字>.json      # 字 → [图元名, 参数, 分类]，178 个
+  hui/<字>.json        # 会意字 → {parts, lay, front}
+  hui-words.json       # 允许走会意的词白名单
+  scenes/<词>.js       # 借场景 → module.exports = ctx => g(...)
+```
+
+加一个字 = 新增一个 JSON 文件；加一个场景 = 新增一个 JS 文件。**两个人做不同的字，永远不会撞车**，审 PR 时 diff 也只有那一个文件。
+
+图元函数（`A.*`）、零件（`PART.*`）、关系骨架、`WORDS` 词级表、`SENSE`、`MOD` 仍在 `scripts/illus.js` 里——这几层改动会影响全局，仍要审。
+
 ## 十三个扩展入口
 
 先判断你要加的东西属于哪一层，别越层改。
 
 ### 1. 加一个字的图元（最常见）
 
-按 [`references/icons.md`](references/icons.md) 的 6 步：查表 → 拆件 → 画函数 → 挂 `CHARMAP` → 看图验 → `stats()` 回归。
+按 [`references/icons.md`](references/icons.md) 的 6 步：查表 → 拆件 → 画函数（`A.*`）→ **新建 `data/chars/<字>.json`** → 看图验 → `stats()` 回归。
+
+```json
+["mountain", {}, "misc"]
+```
+
+三个位置：图元名、参数、分类色。建文件前先确认这个字没被占：
+```bash
+node -e "const I=require('./scripts/illus.js');console.log(I.hasIcon('接'))"
+```
 
 ```bash
 node -e "const I=require('./scripts/illus.js');console.log(I.describe('海鸥'))"
@@ -28,7 +51,7 @@ node scripts/render.js 海鸥 /tmp/t.svg && python3 -c "import cairosvg;cairosvg
 先看 `PART.*` 的零件能不能覆盖差异；能，就在 `A.xxx(p)` 里加参数分支，别复制一份函数。
 
 判据：换个数还认得出是同一个东西 → 加参数；画法结构都变了 → 加函数。
-挂触发参数的两处入口：`MOD`（修饰字，如 `雪山 → p:{snow:'heavy'}`）或 `CHARMAP`（字本身，如 `松 → tree{pine:true}`）。
+挂触发参数的两处入口：`MOD`（修饰字，如 `雪山 → p:{snow:'heavy'}`，在 `scripts/illus.js`）或 `data/chars/<字>.json`（字本身，如 `["tree", {"pine": true}, "wood"]`）。
 
 ### 3. 加一种关系（会改变一批词的构图）
 
@@ -42,7 +65,7 @@ node scripts/render.js 海鸥 /tmp/t.svg && python3 -c "import cairosvg;cairosvg
 
 ### 4. 加一条词级构图（语义跑偏的词）
 
-`WORDS` 表里一个词一个函数，用来救"字面拼接会读错"的词（`火车`、`学生`）。
+`scripts/illus.js` 的 `WORDS` 表里一个词一个函数，用来救"字面拼接会读错"的词（`火车`、`学生`）。这一层尚未拆成文件——它改动面大，一个 PR 只加一条。
 
 判据：把两个字并排念一遍，念出来的不是这个词 → 该登记。
 
@@ -117,8 +140,8 @@ MOTION['融化'] = () => [
 适用：会意/合体会意字，且**词义 = 字形义**（`灾`、`明`、`众`、`渔`）。字义与字形不一致的（`晶莹`、`说明`、`从来`）不要加。
 
 1. 查部件都有图元（`A` 的键名）；缺部件先补图元，别用近义部件硬凑。
-2. 在 `scripts/illus.js` 的 `HUI` 里登记 `{ parts: [...], lay: 'side'|'stack'|'tri' }`，主体在前的加 `front: 1`。
-3. 在 `HUI_WORDS` 白名单里挑词：只放"念出来就是这个词"的（`灾难`→灾、`渔夫`→渔）。
+2. 新建 `data/hui/<字>.json`，内容形如 `{"parts": ["house", "fire"], "lay": "side", "front": 1}`；`lay` 取 `side`/`stack`/`tri`，主体在前的加 `front: 1`。
+3. 把允许走会意的词加进 `data/hui-words.json`（键=词，值=用哪个字）：只放"念出来就是这个词"的（`灾难`→灾、`渔夫`→渔）。
 4. 缩到 76px，遮住词牌问自己"念得出这个字吗"；念不出就回退。
 5. 跑 `node scripts/demo.js decomp`，细则见 [references/decomposition.md](references/decomposition.md)。
 
@@ -137,7 +160,7 @@ MOTION['融化'] = () => [
 
 1. 先问有没有"人人都会做"的场景；没有就别勉强。
 2. 挑 2–3 件图元，其中**一件必须指向词义**（太阳的方位、箭的落点、担子的重量）。
-3. 写成 `SCENE` 里的整幅函数，统一地平线 y=86；符号只做"语气"（感叹号/星芒/泪）。
+3. 新建 `data/scenes/<词>.js`，照抄 `data/scenes/希望.js` 的形状：`module.exports = ctx => { const { A, SYM, C, g, ln, arc, pol, at } = ctx; return g(...); }`；统一地平线 y=86；符号只做"语气"（感叹号/星芒/泪）。
 4. 遮住词牌念一遍，念出来不是这个词就退出（`帮助`、`机会` 都这样撤过）。
 5. 跑 `node scripts/demo.js scene`，细则见 [references/scenes.md](references/scenes.md)。
 
@@ -162,6 +185,9 @@ node scripts/site.js
 
 # 4. 图片"打开看一眼"：缩到 76 宽，认不出就是没画对
 python3 -c "import cairosvg;cairosvg.svg2png(url='assets/demo-variants.svg',write_to='/tmp/v.png',output_width=1240)"
+
+# 5. 刷新待补清单（改过图元或 data/ 之后，数字会变）
+node scripts/wanted.js
 ```
 
 **验收标准**：硬伤 0 个；同一构图重复不超过 `--max-dupe`；76px 下主体可辨；三种画法至少各出一张确认没丢元素。

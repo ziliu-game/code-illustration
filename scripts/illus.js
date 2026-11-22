@@ -440,40 +440,10 @@ function dualPanel(a, b) {
 
 /* ---------- 拆字会意：字义 = 部件意义之合（日月为明、人木为休、火火为炎） ----------
    三套版式：side 左右（前件大、后件小）、stack 上下（上件小、下件大）、tri 三件（上一下二） */
-const HUI = {
-  明: { parts: ['sun', 'moon'], lay: 'side' },          // 日 + 月
-  休: { parts: ['person', 'tree'], lay: 'side' },       // 人 靠 木
-  从: { parts: ['person', 'person'], lay: 'side' },      // 人 从 人
-  林: { parts: ['tree', 'tree'], lay: 'side' },          // 双木
-  森: { parts: ['tree', 'tree', 'tree'], lay: 'tri' },   // 三木
-  众: { parts: ['person', 'person', 'person'], lay: 'tri' },
-  炎: { parts: ['fire', 'fire'], lay: 'side' },          // 双火
-  磊: { parts: ['stone', 'stone', 'stone'], lay: 'tri' },
-  淼: { parts: ['water', 'water', 'water'], lay: 'tri' },
-  岩: { parts: ['mountain', 'stone'], lay: 'side', front: 1 },  // 山 上 石
-  岛: { parts: ['mountain', 'bird'], lay: 'stack' },      // 鸟 栖 山
-  灾: { parts: ['house', 'fire'], lay: 'side', front: 1 },      // 宀 下 火
-  宝: { parts: ['house', 'gem'], lay: 'stack' },          // 宀 中 玉
-  渔: { parts: ['fish', 'water'], lay: 'stack' },         // 水 中 鱼
-  看: { parts: ['hand', 'eye'], lay: 'stack' },           // 手 搭 目
-  采: { parts: ['hand', 'tree'], lay: 'stack' },          // 手 摘 木
-  思: { parts: ['field', 'heart'], lay: 'stack' },        // 田 + 心
-  好: { parts: [['person', { dress: true, hair: 'bun' }], ['person', { child: true }]], lay: 'side' },
-  安: { parts: ['house', ['person', { dress: true, hair: 'bun' }]], lay: 'stack' },
-  家: { parts: ['house', 'pig'], lay: 'stack' }
-};
+/* HUI 见 data/ */;
 
 /* 允许走会意的词：逐个登记、逐个审稿（字形对了不等于词义对了） */
-const HUI_WORDS = {
-  好: '好', 安: '安', 家: '家',
-  明: '明', 休: '休', 看: '看', 采: '采', 岛: '岛', 岩: '岩', 炎: '炎',
-  森: '森', 从: '从', 磊: '磊', 淼: '淼',
-  观众: '众', 群众: '众', 大众: '众',
-  宝贝: '宝',
-  灾难: '灾', 灾害: '灾',
-  渔民: '渔', 渔夫: '渔', 渔翁: '渔',
-  分明: '明', 明朗: '明', 明显: '明'
-};
+/* HUI_WORDS 见 data/ */;
 
 function huiArt(char) {
   const h = HUI[char];
@@ -538,45 +508,7 @@ function strengthArt() {
 
 /* ---------- 借场景：抽象词没有实物，就借一个"念得出词义"的场景 ----------
    判据只有一条：遮住词牌，把画面念出来，念的是不是这个词。念不出的不许进这张表。 */
-const SCENE = {
-  希望: () => g(
-    at(6, 30, .58, A.sprout()),
-    at(66, 4, .3, A.sun()),
-    ln(2, 86, 98, 86, 2.4, C.ink2),
-    arc('M74,74 q-8,-18 0,-34', 2.2, C.ink2),
-    pol('74,36 68,46 82,48', C.ink2)),
-  未来: () => g(
-    at(0, 24, .8, A.path()),
-    at(68, 4, .26, A.sun()),
-    ln(2, 86, 98, 86, 2.4, C.ink2)),
-  危险: () => g(
-    at(2, 26, .62, A.person({ arms: 'wide' })),
-    at(54, 2, .4, A.lightning()),
-    SYM.bang(),
-    ln(2, 86, 98, 86, 2.4, C.ink2)),
-  困难: () => g(
-    at(40, 2, .82, A.mountain()),
-    at(0, 34, .46, A.person()),
-    ln(2, 86, 98, 86, 2.4, C.ink2)),
-  漂亮: () => g(
-    at(14, 16, .68, A.flower()),
-    ln(2, 86, 98, 86, 2.4, C.ink2),
-    SYM.spark()),
-  目标: () => g(
-    at(30, 8, .68, A.target()),
-    ln(4, 86, 62, 52, 2.4, C.ink2),
-    pol('66,50 56,48 58,60', C.ink2),
-    ln(2, 86, 98, 86, 2.4, C.ink2)),
-  责任: () => g(
-    at(4, 24, .58, A.person()),
-    at(42, 20, .32, A.box()),
-    ln(36, 46, 52, 34, 2.6, C.ink2),
-    ln(2, 86, 98, 86, 2.4, C.ink2)),
-  感动: () => g(
-    at(16, 22, .66, A.heart()),
-    ln(2, 86, 98, 86, 2.4, C.ink2),
-    SYM.spark(), SYM.tear())
-};
+/* SCENE 见 data/ */;
 
 /* 器物 */
 A.door = (p = {}) => g(
@@ -824,76 +756,30 @@ A.pod = () => g(
 
 /* ---------- 字 → 图元映射 ----------
    每一项：字: [图元名, 参数, 分类色]                              */
-const CHARMAP = {
-  // 数字
-  一: ['d1', {}, 'num'], 二: ['d2', {}, 'num'], 三: ['d3', {}, 'num'], 四: ['d4', {}, 'num'],
-  五: ['d5', {}, 'num'], 六: ['d6', {}, 'num'], 七: ['d7', {}, 'num'], 八: ['d8', {}, 'num'],
-  九: ['d9', {}, 'num'], 十: ['d10', {}, 'num'],
-  // 自然
-  日: ['sun', {}, 'sun'], 月: ['moon', {}, 'misc'], 天: ['sky', {}, 'misc'], 地: ['soil', {}, 'misc'],
-  水: ['water', {}, 'water'], 火: ['fire', {}, 'fire'], 山: ['mountain', {}, 'misc'], 石: ['stone', {}, 'stone'],
-  海: ['sea', {}, 'water'], 洋: ['sea', {}, 'water'], 潮: ['sea', {}, 'water'], 浪: ['sea', {}, 'water'],
-  江: ['river', {}, 'water'], 河: ['river', {}, 'water'], 溪: ['river', { small: true }, 'water'],
-  湖: ['water', { calm: true }, 'water'], 池: ['water', { calm: true }, 'water'], 塘: ['water', { calm: true }, 'water'],
-  土: ['soil', {}, 'misc'], 雨: ['rain', {}, 'rain'], 雪: ['snow', {}, 'misc'], 云: ['cloud', {}, 'misc'],
-  风: ['wind', {}, 'misc'], 电: ['lightning', {}, 'misc'], 白: ['swatch', { color: '#f4f1e8' }, 'misc'],
-  红: ['swatch', { color: '#b23a2f' }, 'misc'], 黄: ['swatch', { color: '#d8a72f' }, 'misc'],
-  蓝: ['swatch', { color: '#39628f' }, 'misc'], 黑: ['swatch', { color: '#2f2b28' }, 'misc'],
-  绿: ['swatch', { color: '#3f7a63' }, 'misc'],
-  // 植物
-  木: ['tree', {}, 'wood'], 林: ['tree', {}, 'wood'], 树: ['tree', {}, 'wood'], 松: ['tree', { pine: true }, 'wood'],
-  果: ['fruit', {}, 'wood'], 花: ['flower', {}, 'grass'], 草: ['grass', {}, 'grass'], 菜: ['grass', {}, 'grass'],
-  茶: ['cup', {}, 'grass'], 药: ['grass', {}, 'grass'], 苔: ['grass', {}, 'grass'], 竹: ['bamboo', {}, 'grass'],
-  马: ['horse', {}, 'misc'], 罐: ['jar', {}, 'misc'], 瓢: ['ladle', {}, 'misc'],
-  米: ['rice', {}, 'misc'], 饭: ['bowl', {}, 'misc'], 春: ['sprout', {}, 'sun'], 夏: ['sun', {}, 'misc'],
-  秋: ['leaf', {}, 'misc'], 冬: ['snow', {}, 'misc'], 生: ['sprout', {}, 'misc'],
-  // 身体
-  口: ['mouth', {}, 'mouth'], 手: ['hand', {}, 'hand'], 心: ['heart', {}, 'heart'], 目: ['eye', {}, 'eye'],
-  眼: ['eye', {}, 'eye'], 睛: ['eye', {}, 'eye'], 看: ['eye', {}, 'eye'], 耳: ['ear', {}, 'misc'],
-  听: ['ear', {}, 'misc'], 脚: ['foot', {}, 'misc'], 头: ['person', { child: true }, 'misc'],
-  身: ['person', {}, 'misc'],
-  // 人
-  人: ['person', {}, 'misc'], 女: ['person', { dress: true, hair: 'pony' }, 'woman'],
-  男: ['person', { color: C.blue }, 'misc'], 子: ['person', { child: true }, 'misc'],
-  孩: ['person', { child: true }, 'misc'], 哥: ['person', { color: C.blue }, 'misc'],
-  弟: ['person', { child: true, color: C.blue }, 'misc'], 爸: ['person', { color: C.blue }, 'misc'],
-  妈: ['person', { dress: true, hair: 'bun' }, 'woman'], 姐: ['person', { dress: true, hair: 'pony' }, 'woman'],
-  妹: ['person', { dress: true, hair: 'pony', child: true }, 'woman'], 好: ['group', {}, 'woman'],
-  朋: ['group', {}, 'misc'], 友: ['group', {}, 'misc'], 们: ['group', {}, 'misc'],
-  你: ['person', { arms: 'point' }, 'misc'], 我: ['person', {}, 'misc'], 他: ['person', { color: C.blue }, 'misc'],
-  老: ['person', { cane: true, hair: 'short' }, 'misc'], 师: ['teacher', {}, 'misc'],
-  大: ['person', { arms: 'wide', color: C.clay }, 'misc'], 小: ['person', { child: true }, 'misc'],
-  // 动物
-  鸟: ['bird', {}, 'misc'], 鸡: ['bird', { comb: true }, 'misc'], 鱼: ['fish', {}, 'water'],
-  牛: ['cattle', {}, 'misc'], 羊: ['cattle', { horns: 'ram' }, 'misc'],
-  猫: ['cat', {}, 'misc'], 狗: ['dog', {}, 'misc'], 虫: ['snail', {}, 'misc'],
-  飞: ['bird', {}, 'misc'], 跳: ['jumper', {}, 'misc'], 走: ['runner', {}, 'misc'], 跑: ['runner', {}, 'misc'],
-  快: ['runner', { color: C.gold }, 'heart'], 慢: ['snail', {}, 'heart'],
-  // 器物
-  车: ['car', {}, 'misc'], 门: ['door', {}, 'misc'], 家: ['house', {}, 'misc'], 房: ['house', {}, 'misc'],
-  校: ['school', {}, 'wood'], 学: ['school', {}, 'misc'], 书: ['book', {}, 'misc'], 笔: ['pen', {}, 'misc'],
-  字: ['seal', {}, 'misc'], 田: ['field', {}, 'misc'], 灯: ['bulb', {}, 'fire'],
-  光: ['bulb', {}, 'misc'], 明: ['sun', {}, 'sun'], 时: ['clock', {}, 'sun'], 早: ['sun', {}, 'sun'],
-  晚: ['moon', {}, 'sun'], 午: ['sun', {}, 'misc'], 昨: ['calendar', {}, 'sun'], 晴: ['sun', {}, 'sun'],
-  年: ['calendar', {}, 'misc'], 黑: ['blackboard', {}, 'misc'], 衣: ['clothes', {}, 'misc'], 服: ['clothes', {}, 'misc'],
-  碗: ['bowl', {}, 'stone'], 杯: ['cup', {}, 'misc'], 球: ['ball', {}, 'misc'], 桥: ['bridge', {}, 'wood'],
-  船: ['boat', {}, 'water'], 旗: ['flag', {}, 'misc'], 机: ['car', {}, 'wood'],
-  // 方位 / 动作
-  上: ['steps', { dir: 'up' }, 'misc'], 下: ['steps', { dir: 'down' }, 'misc'],
-  中: ['target', {}, 'misc'], 来: ['arrow', { dir: 'in' }, 'misc'], 去: ['arrow', { dir: 'out' }, 'misc'],
-  出: ['box', { open: true }, 'misc'], 开: ['door', {}, 'misc'], 关: ['door', {}, 'misc'],
-  起: ['arrow', { dir: 'up' }, 'misc'], 回: ['circleArrow', {}, 'misc'], 西: ['moon', {}, 'misc'],
-  见: ['eye', {}, 'misc'], 路: ['path', {}, 'misc'], 坐: ['sitting', {}, 'misc'],
-  多: ['many', {}, 'misc'], 少: ['few', {}, 'misc'], 高: ['steps', { dir: 'up' }, 'misc'],
-  // 表情 / 抽象
-  爱: ['heart', { color: C.plum }, 'misc'], 想: ['bulb', {}, 'heart'], 问: ['mouth', {}, 'mouth'],
-  吃: ['bowl', {}, 'mouth'], 喝: ['cup', {}, 'mouth'], 说: ['mouth', {}, 'speech'], 请: ['mouth', {}, 'speech'],
-  叫: ['mouth', {}, 'mouth'], 唱: ['mouth', {}, 'mouth'], 读: ['book', {}, 'speech'],
-  写: ['pen', {}, 'misc'], 热: ['fire', {}, 'fire'], 冷: ['snow', {}, 'misc'],
-  甜: ['fruit', {}, 'misc'], 香: ['flower', {}, 'misc'], 苦: ['grass', {}, 'grass'],
-  笑: ['mouth', {}, 'misc'], 玩: ['ball', {}, 'misc'], 美: ['flower', {}, 'misc'],
-  静: ['moon', {}, 'misc'], 亮: ['bulb', {}, 'misc'], 平: ['field', {}, 'misc']
+/* ---------- 数据层：一字一文件 ----------
+   词条、会意、场景都在 ../data/ 下：chars/<字>.json、hui/<字>.json、
+   hui-words.json、scenes/<词>.js。加一个字只动一个文件，多人提交互不冲突。 */
+const _fs = require('fs'), _path = require('path');
+const DATA_DIR = _path.join(__dirname, '..', 'data');
+const _readDir = (sub, ext) => {
+  const d = _path.join(DATA_DIR, sub);
+  let files = [];
+  try { files = _fs.readdirSync(d); } catch (e) { return {}; }
+  const out = {};
+  for (const f of files) {
+    if (!f.endsWith(ext)) continue;
+    const k = f.slice(0, -ext.length);
+    const p = _path.join(d, f);
+    out[k] = ext === '.json' ? JSON.parse(_fs.readFileSync(p, 'utf8')) : require(p);
+  }
+  return out;
 };
+const CHARMAP = _readDir('chars', '.json');
+const HUI = _readDir('hui', '.json');
+const SCENE = _readDir('scenes', '.js');
+const HUI_WORDS = JSON.parse(_fs.readFileSync(_path.join(DATA_DIR, 'hui-words.json'), 'utf8'));
+/* 场景文件不直接依赖本文件内部作用域，用到什么由这里注入 */
+const sceneCtx = () => ({ A, SYM, C, g, ln, arc, pol, at, rct, pth, cir });;
 
 /* 数字图元：1–10 用点阵（数量直观） */
 for (let n = 1; n <= 10; n++) {
@@ -1656,7 +1542,7 @@ function plan(word) {
   // 借场景词：人工登记的整幅构图
   if (SCENE[word]) {
     return { chars, head: 0, hIcon: null, sub: -1, sIcon: null, mods: '',
-      baseRel: 'SCENE', rel: 'SCENE', many: false, spec: SCENE[word], scene: word };
+      baseRel: 'SCENE', rel: 'SCENE', many: false, spec: () => SCENE[word](sceneCtx()), scene: word };
   }
   // 审稿表：人工已判定画错 → 字牌（优先级高于一切自动规则）
   if (PLATES.has(word)) {

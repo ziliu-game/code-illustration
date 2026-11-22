@@ -51,6 +51,6 @@ const SCENE = {
 
 1. 先问：这个词有没有一个"人人都会做"的具体场景？没有就别勉强。
 2. 挑两件最多三件图元（`A` 里的键名），确定哪一件"指向词义"。
-3. 写成 `SCENE` 里的函数，统一地平线。
+3. 新建 `data/scenes/<词>.js`，统一地平线。
 4. 渲染后缩到 76px，遮住词牌念一遍；念出来不是这个词就退出。
 5. 跑 `node scripts/demo.js scene` 与 `node scripts/validate.js --batch`。
