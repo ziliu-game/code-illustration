@@ -1,0 +1,26 @@
+{
+  "name": "code-illustration",
+  "version": "0.9.0",
+  "description": "纯代码（字符串拼 SVG）把汉字/词变成可批量、可编辑的插图，支持关系构图、图元变体与三种画法。",
+  "license": "MIT",
+  "private": false,
+  "main": "scripts/illus.js",
+  "scripts": {
+    "demo": "node scripts/demo.js",
+    "site": "node scripts/site.js",
+    "styles": "node scripts/styles.js assets/styles.svg",
+    "check": "node scripts/validate.js --batch tests/sample-words.json --max-dupe 12 --fail-dupe --min-drawn 60",
+    "validate": "node scripts/validate.js --batch words.json --max-dupe 8"
+  },
+  "keywords": [
+    "svg",
+    "illustration",
+    "chinese",
+    "procedural",
+    "education",
+    "no-ai-image"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}

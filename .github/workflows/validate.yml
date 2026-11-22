@@ -1,0 +1,36 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 脚本语法
+        run: for f in scripts/*.js; do node --check "$f" || exit 1; done
+
+      - name: 重新生成拼版与展示页
+        run: node scripts/demo.js && node scripts/site.js
+
+      - name: 产物必须与提交一致（改了生成器要一起提交 assets/ 与 docs/）
+        run: git diff --exit-code -- assets docs
+
+      - name: 单图冒烟（三种画法都能出且非空）
+        run: |
+          node scripts/render.js 山水 /tmp/plain.svg
+          node scripts/render.js 山水 /tmp/doodle.svg --style doodle
+          node scripts/render.js 山水 /tmp/wash.svg --style wash
+          test -s /tmp/plain.svg && test -s /tmp/doodle.svg && test -s /tmp/wash.svg
+
+      - name: 词表验收（硬伤为 0、同构图不超阈值、可画率不低于 60%）
+        run: node scripts/validate.js --batch tests/sample-words.json --max-dupe 12 --fail-dupe --min-drawn 60
